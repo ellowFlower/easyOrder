@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-9" style="border-right: 2px solid #ccc;">
+
+      <ngb-tabset justify="fill">
+        <ngb-tab title="Speisen">
+          <ng-template ngbTabContent>
+            <ngb-tabset justify="fill">
+              <ngb-tab *ngFor="let foodcat of foodCategories" title="{{foodcat.name}}">
+                <ng-template ngbTabContent>
+                  <app-food [category]=foodcat.id (addFoodToCartOutput)="addFood($event)"></app-food>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab title="Alle">
+                <ng-template ngbTabContent>
+                  <app-food (addFoodToCartOutput)="addFood($event)"></app-food>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Getränke">
+          <ng-template ngbTabContent>
+            <ngb-tabset justify="fill">
+              <ngb-tab *ngFor="let drinkcat of drinkCategories" title="{{drinkcat.name}}">
+                <ng-template ngbTabContent>
+                  <app-drink [category]=drinkcat.id (addDrinkToCartOutput)="addDrink($event)"></app-drink>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab title="Alle">
+                <ng-template ngbTabContent>
+                  <app-drink (addDrinkToCartOutput)="addDrink($event)"></app-drink>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+    <div class="col-lg-3">
+      <app-cart></app-cart>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,42 @@
+.orders a.selected {
+  background-color: cornflowerblue;
+  color: white;
+}
+
+.orders a {
+  width: 500px;
+}
+
+.helps a {
+  width: 240px;
+  height: 80px;
+  margin-right: 16px;
+  background-color: cornflowerblue;
+}
+
+.test{
+  border: 10px;
+}
+
+.btnDarkBlue{
+  background-color: #164c60;
+  border-color: #164c60;
+  color: white;
+}
+
+.example-small-box, .example-large-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.example-small-box {
+  height: 100px;
+  width: 300px;
+}
+
+
+

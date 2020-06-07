@@ -1,0 +1,27 @@
+<div *ngIf="orderPay" class ="d-flex justify-content-around">
+
+  <div class="list-group col-md-4">
+    <h2 >Speisen</h2>
+    <a *ngFor="let food of orderPay.foods; index as i "  class="list-group-item flex-column align-items-start ">
+      <div class="d-flex w-100 justify-content-between">
+        <h4 class="mb-1">{{food}} €</h4>
+      </div>
+    </a>
+    <div>
+      <br> <br> <br>
+      <h4>Gesamt: {{orderPay.price}} €</h4><br>
+      <h4>Status ändern:</h4>
+        <button (click)="callParentToChangeStatusToErledigtForMultipleOrders(orderPay)" type="button" class="btn btn-secondary btn-sm mr-4">ERLEDIGT</button>
+    </div>
+  </div>
+
+  <div class="list-group col-md-4">
+    <h2 >Getränke</h2>
+    <a *ngFor="let drink of orderPay.drinks; index as i "  class="list-group-item flex-column align-items-start ">
+      <div class="d-flex w-100 justify-content-between">
+        <h4 class="mb-1">{{drink}} €</h4>
+      </div>
+    </a>
+  </div>
+
+</div>

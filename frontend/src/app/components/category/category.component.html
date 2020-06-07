@@ -1,0 +1,195 @@
+<div class="mt-4 container">
+
+  <div class="row p-2 mb-2">
+    <button *ngIf="isAdmin()" type="button" class="btn btn-info mr-4 " data-toggle="modal"
+            data-target=".create-category-modal">Neue Kategorie erstellen
+    </button>
+
+    <div class="modal fade create-category-modal" tabindex="-1" role="dialog" aria-labelledby="Create category modal"
+         aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Kategorie erstellen</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form class="form" [formGroup]="createForm" (ngSubmit)="createCategory()">
+
+              <div class="form-group">
+                <label for="createName">Bezeichnung</label>
+                <input type="text" name="name" formControlName="name" class="form-control" id="createName"
+                       aria-describedby="nameHelp" placeholder="Bezeichnung eingeben">
+                <div *ngIf="submittedCreate && createForm.controls.name.errors" class="error">
+                  <small class="form-text text-warning" *ngIf="createForm.controls.name.errors.required">Bitte geben Sie eine Bezeichnung ein!
+                  </small>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="createDescription">Beschreibung</label>
+                <textarea rows="3" maxlength="70" name="description" formControlName="description" class="form-control"
+                          id="createDescription"
+                          aria-describedby="summaryHelp" placeholder="Beschreibung eingeben"></textarea>
+                <div *ngIf="submittedCreate && createForm.controls.description.errors" class="error">
+                  <small class="form-text text-warning" *ngIf="createForm.controls.description.errors.required">Bitte geben Sie eine Beschreibung ein!
+                  </small>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="createShow">Anzeigen</label>
+                <select name="show" formControlName="show" class="form-control" id="createShow"
+                       aria-describedby="showHelp">
+                  <option value="true">Ja</option>
+                  <option value="false">Nein</option>
+                </select>
+                <div *ngIf="submittedCreate && createForm.controls.show.errors" class="error">
+                  <small class="form-text text-warning" *ngIf="createForm.controls.show.errors.required">Bitte geben Sie ein ob die Kategorie angezeigt werden soll!
+                  </small>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <img
+                      [src]="'data:' + createForm.get('imageContentType').value + ';base64,' + createForm.get('image').value"
+                      style="max-height: 100px;" *ngIf="createForm.get('image').value" alt="category image"/>
+                    <span class="input-group-text" id="createImg">Hochladen</span>
+                  </div>
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="createImage"
+                           (change)="setFileData($event, 'image', true)"
+                           accept="image/*"
+                           aria-describedby="createImage">
+                    <label class="custom-file-label" for="createImage">Bild auswählen</label>
+                  </div>
+                </div>
+              </div>
+
+              <br>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" (click)="createCategory()" class="btn btn-info float-right">Add Category</button>
+            <button #closeUpdateModal  type="button" (click)="clearForm()" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-3 col-lg-4 col-md-4 p-2" *ngFor="let category of getCategory()">
+      <div class="card h-100">
+
+        <img class="card-img-top h-50" [src]="'data:' + category.imageContentType + ';base64,' + category.image"
+             *ngIf="category.image" alt="category image"/>
+        <div class="card-body">
+          <h5 class="card-title">{{category.name}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{category.description}}</h6>
+          <p class="card-text" *ngIf="category.show" >Kategorie wird angezeigt </p>
+          <p class="card-text" *ngIf="!category.show" >Kategorie wird nicht angezeigt </p>
+          <div class="float-right">
+
+            <button *ngIf="isAdmin()" (click)="confirmDeleteCategory(category)" type="button"
+                    class="btn btn-sm btnDarkBlue" data-toggle="modal">
+              Löschen
+            </button>
+            <button (click)="selectCategory(category)" *ngIf="isAdmin()" type="button" class="btn btn-secondary btn-sm"
+                    data-toggle="modal" data-target=".update-category-modal">Aktualisieren
+
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 container">
+    <div class="row p-2 mb-4">
+      <div class="modal fade update-category-modal" tabindex="-1" role="dialog" aria-labelledby="Update category modal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Kategorie aktualisieren</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form class="form" [formGroup]="updateForm" (ngSubmit)="updateCategory()">
+
+                <div class="form-group">
+                  <label for="updateName">Bezeichnung</label>
+                  <input type="text" name="name" formControlName="name" class="form-control" id="updateName"
+                         aria-describedby="nameHelp" [value]="selectedCategory.name">
+                  <div *ngIf="submittedUpdate && updateForm.controls.name.errors" class="error">
+                    <small class="form-text text-warning" *ngIf="updateForm.controls.name.errors.required">Bitte geben Sie eine Bezeichnung ein!
+                    </small>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="updateDescription">Beschreibung</label>
+                  <textarea rows="3" maxlength="70" name="description" formControlName="description" class="form-control" id="updateDescription"
+                            aria-describedby="summaryHelp" [value]="selectedCategory.description"></textarea>
+                  <div *ngIf="submittedUpdate && updateForm.controls.description.errors" class="error">
+                    <small class="form-text text-warning" *ngIf="updateForm.controls.description.errors.required">
+                      Bitte geben Sie eine Beschreibung ein!
+                    </small>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="updateShow">Show</label>
+                  <select name="show" formControlName="show" class="form-control" id="updateShow"
+                         aria-describedby="showHelp" [value]="selectedCategory.show">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                  </select>
+                  <div *ngIf="submittedUpdate && updateForm.controls.show.errors" class="error">
+                    <small class="form-text text-warning" *ngIf="updateForm.controls.show.errors.required">
+                      Bitte geben Sie ein ob die Kategorie angezeigt werden soll oder nicht!
+                    </small>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <img
+                        [src]="'data:' + selectedCategory.imageContentType + ';base64,' + selectedCategory.image"
+                        style="max-height: 100px;"  alt="category image"/>
+                      <span class="input-group-text" id="updateImg">Hochladen</span>
+                    </div>
+                    <div class="custom-file">
+                      < <input type="file" class="custom-file-input" id="updateImage"
+                               (change)="setFileData($event, 'image', true)"
+                               accept="image/*"
+                               aria-describedby="updateImage">
+                      <label class="custom-file-label" for="updateImage">Bild auswählen</label>
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <br/>
+
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" (click)="updateCategory()" class="btn btn-info float-right">Kategorie aktualisieren</button>
+              <button #closeUpdateModal type="button" (click)="clearForm()" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

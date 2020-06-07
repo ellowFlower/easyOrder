@@ -1,0 +1,96 @@
+
+
+  <div class="container-fluid mt-3">
+
+    <h2>Unterstützung</h2>
+
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab class="mt-2" *ngFor="let help of getHelp(); index as i" label="Tisch: {{help.tableId}} - {{help.assistance}}">
+        <div class = "mat-elevation-z4 example-small-box">
+          <button (click)="deleteHelpOrder(help)" type="button" class="btn btnDarkBlue btn-sm mr-4">ERLEDIGT</button>
+        </div>
+   </mat-tab>
+    </mat-tab-group>
+  </div>
+
+
+
+  <div class="container-fluid mt-5">
+
+  <h2>Bestellungen</h2>
+
+  <ngb-tabset justify="fill">
+    <ngb-tab>
+      <ng-template ngbTabTitle class="test">
+        <div (click)="unSelectAll()">Neu</div>
+      </ng-template>
+            <ng-template ngbTabContent><br>
+              <div class="row">
+                <div class="list-group col-md-4 orders">
+                  <a *ngFor="let orderNeu of orderFindNeu index as i"
+                     (click) = "onSelectNeu(orderNeu)"
+                     [class.selected]="orderNeu === selectedOrderNeu"
+                     class="list-group-item list-group-item-action flex-column align-items-start ">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Bestellung:{{orderNeu.id}}</h5>
+                      <h5 class="mb-1">Tisch: {{orderNeu.tableId}}</h5>
+                    </div>
+                    <p class="mb-1"></p>
+                    <p>Anmerkung: {{orderNeu.assistance}}</p>
+                    <p>Status: {{orderNeu.status}}</p>
+                  </a>
+                </div>
+
+                <app-order-detail class="col-md-8" [order]="selectedOrderNeu" (myEventServieren)="changeStatus('SERVIEREN', $event)" (myEventErledigt)="changeStatus('ERLEDIGT', $event)"></app-order-detail>
+
+              </div>
+            </ng-template>
+    </ngb-tab>
+    <ngb-tab>
+      <ng-template ngbTabTitle>
+        <div (click)="unSelectAll()">Zu servieren</div>
+      </ng-template>
+      <ng-template ngbTabContent><br>
+              <div class="row">
+                <div class="list-group col-md-4 orders">
+                  <a *ngFor="let orderServieren of orderFindServieren; index as i "
+                     (click) = "onSelectServieren(orderServieren)"
+                     [class.selected]="orderServieren === selectedOrderServieren"
+                     class="list-group-item list-group-item-action flex-column align-items-start ">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Bestellung:{{orderServieren.id}}</h5>
+                      <h5 class="mb-1">Tisch: {{orderServieren.tableId}}</h5>
+                    </div>
+                    <p class="mb-1"></p>
+                    <p>Anmerkung: {{orderServieren.assistance}}</p>
+                    <p>Status: {{orderServieren.status}}</p>
+                  </a>
+                </div>
+
+                <app-order-detail class="col-md-8" [order]="selectedOrderServieren" (myEventErledigt)="changeStatus('ERLEDIGT', $event)" (myEventServiert)="changeStatus('SERVIERT', $event)"></app-order-detail>
+              </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab>
+      <ng-template ngbTabTitle>
+        <div (click)="unSelectAll()">Zu bezahlen</div>
+      </ng-template>
+      <ng-template ngbTabContent><br>
+              <div class="row">
+                <div class="list-group col-md-4 orders">
+                  <a *ngFor="let orderPay of orderFindPay; index as i "
+                     (click) = "onSelectPay(orderPay)"
+                     [class.selected]="orderPay === selectedOrderPay"
+                     class="list-group-item list-group-item-action flex-column align-items-start ">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Tisch:{{orderPay.tableId}}</h5>
+                    </div>
+                  </a>
+                </div>
+                <app-order-pay-detail class="col-md-8" [orderPay]="selectedOrderPay" (myEventErledigtMultiple)="changeStatusAll('ERLEDIGT', $event)"></app-order-pay-detail>
+              </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+
+</div>

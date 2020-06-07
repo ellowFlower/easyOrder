@@ -1,0 +1,104 @@
+<div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Error! </strong> {{ errorMessage }}
+  <button type="button" (click)="vanishError()" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <form class="form-inline">
+
+      <div class="statLabel">
+        <div>
+          <span>Von:</span>
+        </div>
+      </div>
+
+      <div class="form-group hidden">
+        <div class="input-group">
+          <input name="datepicker"
+                 class="form-control"
+                 ngbDatepicker
+                 #datepicker="ngbDatepicker"
+                 [autoClose]="'outside'"
+                 (dateSelect)="onDateSelection($event)"
+                 [displayMonths]="2"
+                 [dayTemplate]="t"
+                 outsideDays="hidden"
+                 [startDate]="fromDate">
+          <ng-template #t let-date let-focused="focused">
+        <span class="custom-day"
+              [class.focused]="focused"
+              [class.range]="isRange(date)"
+              [class.faded]="isHovered(date) || isInside(date)"
+              (mouseenter)="hoveredDate = date"
+              (mouseleave)="hoveredDate = null">
+          {{ date.day }}
+        </span>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="form-group stat">
+
+        <div class="input-group">
+          <input #dpFromDate
+                 class="form-control" placeholder="dd.mm.yyyy"
+                 name="dpFromDate"
+                 [value]="formatter.format(fromDate)"
+                 (input)="fromDate = validateInput(fromDate, dpFromDate.value)">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="datepicker.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="statLabel">
+        <div>
+          <span>Bis:</span>
+        </div>
+      </div>
+
+      <div class="form-group stat">
+        <div class="input-group">
+          <input #dpToDate
+                 class="form-control" placeholder="dd.mm.yyyy"
+                 name="dpToDate"
+                 [value]="formatter.format(toDate)"
+                 (input)="toDate = validateInput(toDate, dpToDate.value)">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="datepicker.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <button type="button" class="btn btn-info stat" data-toggle="modal"
+            (click)="calculateTimeRangeStatistics()">berechne Statistik
+    </button>
+
+  </div>
+  <div class="row">
+    <div class="col">
+      <ngx-charts-advanced-pie-chart
+        [results]="resultsTurnover"
+        [label]="labelTurnover"
+        [view]="view"
+        [valueFormatting]="valueFormatting"
+        [animations]="false"
+        [percentageFormatting]="percentageFormatting">
+      </ngx-charts-advanced-pie-chart>
+    </div>
+    <div class="col">
+      <ngx-charts-advanced-pie-chart
+        [results]="resultsSales"
+        [label]="labelSales"
+        [animations]="false"
+        [view]="view"
+        [percentageFormatting]="percentageFormatting">
+      </ngx-charts-advanced-pie-chart>
+    </div>
+  </div>
+</div>

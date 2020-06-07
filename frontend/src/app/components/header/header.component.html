@@ -1,0 +1,47 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand ml-lg-5" href=""><img class="logo" width="200px" src="/assets/img/logo.png" alt="logo"/></a>
+  <button class="navbar-toggler ml-5" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="authService.isLoggedIn() && isAdmin()" routerLink="/food" routerLinkActive="active">Gerichte</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="authService.isLoggedIn() && isAdmin()" routerLink="/drink" routerLinkActive="active">Getränke</a>
+      </li>
+
+      <li class="nav-item ">
+        <a class="nav-link" *ngIf="authService.isLoggedIn() && isAdmin()" routerLink="/registertable" routerLinkActive="active">Tisch registrieren</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="authService.isLoggedIn() && isAdmin()" routerLink="/category" routerLinkActive="active">Kategorien</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="authService.isLoggedIn() && isUser()" routerLink="/menu" routerLinkActive="active">Speisekarte</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="authService.isLoggedIn() && isAdmin()" routerLink="/order" routerLinkActive="active">Bestellungen</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="authService.isLoggedIn() && isAdmin()" routerLink="/statistic" routerLinkActive="active">Statistik</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav mr-5">
+      <a class="nav-link" *ngIf="!authService.isLoggedIn()" routerLink="/login" routerLinkActive="active">Login</a>
+      <a class="nav-link" *ngIf="authService.isLoggedIn()" routerLink="/" (click)="authService.logoutUser()">Logout</a>
+
+      <li *ngIf="isUser()" class="nav-item space font-italic"><span class="navbar-text"><h5>Eingeloggt als Gast</h5></span></li>
+      <li *ngIf="isAdmin()" class="nav-item font-italic"><span class="navbar-text"><h5>Eingeloggt als Admin</h5></span></li>
+    </ul>
+  </div>
+</nav>

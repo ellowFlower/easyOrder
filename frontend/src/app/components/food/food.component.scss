@@ -1,0 +1,23 @@
+.cardList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+/* Column Gap */
+.cardList > * {
+  box-sizing: border-box;
+}
+.cardList > *:not(:last-child) {
+  margin-right: 32px;
+}
+/* Item sizing */
+.cardListItem {
+  flex: 0 1 calc(20% - 32px);
+}
+
+.btnDarkBlue{
+  background-color: #164c60;
+  border-color: #164c60;
+  color: white;
+}

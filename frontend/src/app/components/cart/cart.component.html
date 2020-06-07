@@ -1,0 +1,94 @@
+<div class="container-fluid mt-5">
+  <div class="display-4">
+    Warenkorb:
+  </div>
+  <br>
+  Gerichte:<br>
+  <div class="row" *ngFor="let food of foods">
+    <div class="col-lg-4">
+      <p class="text-muted text-uppercase font-weight-bold">{{food.name}}</p>
+    </div>
+    <div class="col-lg-4">
+      <p class="text-muted">{{food.price.toFixed(2)}} €</p>
+    </div>
+    <div class="col-lg-4">
+      <button (click)="deleteFoodFromCart(food)" type="button" class="btn btnDelete btn-sm">Löschen</button>
+    </div>
+  </div>
+  Getränke:<br>
+  <div class="row" *ngFor="let drink of drinks">
+    <div class="col-lg-4">
+      <p class="text-muted text-uppercase font-weight-bold">{{drink.name}}</p>
+    </div>
+    <div class="col-lg-4">
+      <p class="text-muted">{{drink.price.toFixed(2)}} €</p>
+    </div>
+    <div class="col-lg-4">
+      <button (click)="deleteDrinkFromCart(drink)" type="button" class="btn btnDelete btn-sm">Löschen</button>
+    </div>
+  </div>
+  <label *ngIf="!isEmpty()"><strong>Summe:</strong> {{sum.toFixed(2)}} </label>
+
+  <br>
+
+
+
+  <label>Anmerkung</label>
+  <textarea type="text" rows="3" [(ngModel)]="assistance" class="form-control"></textarea>
+
+  <br>
+  <button (click)="order()" type="button" class="btn btnDarkBlue">Bestellen</button>
+
+  <br>
+  <br>
+  <hr class="style3">
+  <br>
+  <h4>
+    Aktuelle Bestellungen:
+  </h4>
+  <div class="row" *ngFor="let food of foods1">
+    <div class="col-lg-4">
+      <p class="text-muted text-uppercase font-weight-bold">{{food.name}}</p>
+    </div>
+    <div class="col-lg-4">
+      <p class="text-muted">{{food.price}} €</p>
+    </div>
+  </div>
+  <div class="row" *ngFor="let drink of drinks1">
+    <div class="col-lg-4">
+      <p class="text-muted text-uppercase font-weight-bold">{{drink.name}}</p>
+    </div>
+    <div class="col-lg-4">
+      <p class="text-muted">{{drink.price}} €</p>
+    </div>
+  </div>
+  <button type="button" class="btn btnDarkBlue" data-toggle="modal" data-target=".get-help-modal">Hilfe</button>
+
+
+    <div class="modal fade get-help-modal" tabindex="-1" role="dialog" aria-labelledby="Get help modal"
+         aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Hilfe anfordern</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <button (click)="pay()" type="button" class="btn btnDarkBlue mb-2" data-dismiss="modal">Bezahlen</button>
+            <br>
+            <button (click)="needCutlery()" type="button" class="btn btn-warning mb-2" data-dismiss="modal">Besteck</button>
+            <br>
+            <button (click)="random()" type="button" class="btn btn-dark mb-2" data-dismiss="modal">Sonstiges</button>
+          </div>
+          <div class="modal-footer">
+            <button #closeUpdateModal  type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  <label *ngIf="isOrdered()"><strong>Anmerkung:</strong> {{order1.assistance}}</label>
+</div>

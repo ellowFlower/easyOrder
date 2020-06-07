@@ -1,0 +1,29 @@
+<div *ngIf="order" class ="d-flex justify-content-around" >
+
+  <div class="list-group col-md-4">
+    <h2 >Speisen</h2>
+    <a *ngFor="let food of order.foods"  class="list-group-item flex-column align-items-start ">
+      <div class="d-flex w-100 justify-content-between">
+        <h4 class="mb-1">{{food.name}}</h4>
+      </div>
+    </a>
+    <div>
+      <br> <br> <br>
+      <h4>Status ändern:</h4>
+        <button *ngIf="order.status == 'NEU'" (click)="callParentToChangeStatusToServieren(order)" type="button" class="btn btn-secondary btn-sm mr-4">SERVIEREN</button>
+        <button *ngIf="order.status == 'SERVIEREN'" (click)="callParentToChangeStatusToServiert(order)" type="button" class="btn btn-secondary btn-sm mr-4">SERVIERT</button>
+        <button *ngIf="order.status != 'ERLEDIGT'" (click)="callParentToChangeStatusToErledigt(order)" type="button" class="btn btn-secondary btn-sm mr-4">ERLEDIGT</button>
+    </div>
+  </div>
+
+  <div class="list-group col-md-4">
+    <h2 >Getränke</h2>
+    <a *ngFor="let drink of order.drinks"  class="list-group-item flex-column align-items-start ">
+      <div class="d-flex w-100 justify-content-between">
+        <h4 class="mb-1">{{drink.name}}</h4>
+      </div>
+    </a>
+  </div>
+
+</div>
+

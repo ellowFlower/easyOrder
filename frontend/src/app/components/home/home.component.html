@@ -1,0 +1,11 @@
+<div class="jumbotron mt-5">
+  <h1 class="display-4">Herzlich Willkommen bei EasyOrder!</h1>
+  <hr class="my-4">
+  <a *ngIf="!authService.isLoggedIn()" class="btn btn-lg" routerLink="/login" role="button">Einloggen</a>
+  <!-- <div *ngIf="authService.isLoggedIn()">
+    <p>Check out the latest message from the EasyOrder</p>
+    <p class="lead">
+      <a class="btn btn-primary btn-lg" routerLink="/message" role="button">Message</a>
+    </p>
+  </div> -->
+</div>

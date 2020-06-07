@@ -1,0 +1,26 @@
+<ngb-tabset justify="fill">
+  <ngb-tab title="Foods">
+    <ng-template ngbTabContent>
+      <ngb-tabset justify="fill">
+        <ngb-tab *ngFor="let foodcat of foodCategories" title="{{foodcat.name}}">
+          <ng-template ngbTabContent>
+            <h1>{{foodcat.description}}</h1>
+            <app-food [category]=foodcat.id></app-food>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Drinks">
+    <ng-template ngbTabContent>
+      <ngb-tabset justify="fill">
+        <ngb-tab *ngFor="let drinkcat of drinkCategories" title="{{drinkcat.name}}">
+          <ng-template ngbTabContent>
+            <h1>{{drinkcat.description}}</h1>
+            <app-drink [category]=drinkcat.id></app-drink>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>
